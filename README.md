@@ -38,10 +38,11 @@ The following custom attributes are added:
 
 * Python
 * Node.js (Server-side JavaScript)
+* JavaScript Client-side (broken by CORS)
 
 The following APIS are planned: 
 
-* JavaScript Client-side
+
 * SML (for smlnj)
 * PHP
 

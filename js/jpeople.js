@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+(function(){
 
 //
 // Config
@@ -44,10 +44,7 @@ var jpeople_attr_map = {
 
 //end config
 
-var self = {}; //For module exports
-
-//Imports
-var http = require("http");
+var self = {}; 
 
 
 //The Search function
@@ -56,62 +53,42 @@ self.search = function(query, callback){
 	var query = encodeURIComponent(query);
 
 	//me the search and get a result
-	var req = http.request(
-		{
-			"hostname": jpeople_server_name, 
-			port: 80,
-			path: jpeople_server_path+"?action=fullAutoComplete&str="+query,
-			method: 'GET'
-		},	
-		function(res){
-			if(res.statusCode != 200){
-				callback(false); 
-			} else {
-				var data = ""; 
+	jQuery
+	.ajax({
+		url: "http://"+jpeople_server_name+jpeople_server_path+"?action=fullAutoComplete&str="+query,
+	})
+	.done(function(data){
+		var data = (typeof data == "string")?JSON.parse(data):data; 
+		var people_tree = data["records"]; 
+		var people_list = []; 
 
-				//receive data
-				res.on("data", function(chunk){
-					data += chunk; 
-				}); 
+		for(var i=0;i<people_tree.length;i++){
+			var person = people_tree[i]; 
 
-				//Everything is received, parse it now
-				res.on("end", function(){
-					var people_tree = JSON.parse(data)["records"]; 
-					var people_list = []; 
+			var person_dict = {}; 
 
-					for(var i=0;i<people_tree.length;i++){
-						var person = people_tree[i]; 
+			for(var tag in person){
+				if(jpeople_attr_map.hasOwnProperty(tag)){
+					person_dict[jpeople_attr_map[tag]] = person[tag]; 
+				}
+			}
 
-						var person_dict = {}; 
+			person_dict["photo"] = "http://"+jpeople_server_name+jpeople_server_image_prefix+person_dict["eid"]+jpeople_server_image_suffix;
 
-						for(var tag in person){
-							if(jpeople_attr_map.hasOwnProperty(tag)){
-								person_dict[jpeople_attr_map[tag]] = person[tag]; 
-							}
-						}
-
-						person_dict["photo"] = "http://"+jpeople_server_name+jpeople_server_image_prefix+person_dict["eid"]+jpeople_server_image_suffix;
-
-						people_list.push(person_dict); 
-					}
-
-					callback(people_list); 
-
-				})
+			people_list.push(person_dict); 
 		}
 
+		callback(people_list); 
 	})
-	req.on('error', function(e) {
+	.fail(function() {
 	  callback(false); 
 	});
 
-	req.end(); 
 };
 
-self.main = function(args){
-	var query = args.splice(1).join(" "); 
+self.main = function(query){
 	if(query == ""){
-		console.log("jPeople API Client (Node.JS)");
+		console.log("jPeople API Client (Client Side JavaScript)");
 		console.log("(c) Tom Wiesing 2013");
 		console.log("Usage: "+args[0]+" $SEARCH"); 
 	} else {
@@ -152,12 +129,5 @@ self.main = function(args){
 	
 };
 
-
-
-if (!module.parent) {
-	self.main(process.argv.slice(1)); 
-}
-
-//export stuff
-
-module.exports = self; 
+window.jpeople = self; 
+})(); 
