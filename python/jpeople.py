@@ -114,8 +114,8 @@ def search(query):
 
 		else:
 			raise UnexpectedCode()
-	except Exception as e: 
-		raise e
+	except Exception: 
+		raise Exception
 
 # MAIN Function
 # if run stand alone
@@ -140,8 +140,8 @@ def main(args):
 		print("Server responded with an unexpected code. ", reason)
 		print("Please make sure you are in the Jacobs University Network / VPN. ")
 		sys.exit(1)
-	except Exception as reason:
-		print("Unable to parse result: ", reason)
+	except Exception:
+		print("Unable to parse result. ")
 		print("Please make sure you are in the Jacobs University Network / VPN. ")
 		sys.exit(1)
 

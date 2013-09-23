@@ -56,8 +56,13 @@ self.search = function(query, callback){
 	var query = encodeURIComponent(query);
 
 	//me the search and get a result
-	http.get(
-		"http://"+jpeople_server_name+jpeople_server_path+"?action=fullAutoComplete&str="+query, 
+	var req = http.request(
+		{
+			"hostname": jpeople_server_name, 
+			port: 80,
+			path: jpeople_server_path+"?action=fullAutoComplete&str="+query,
+			method: 'GET'
+		},	
 		function(res){
 			if(res.statusCode != 200){
 				callback(false); 
@@ -94,10 +99,12 @@ self.search = function(query, callback){
 		}
 
 	})
-	.on('error', function(e) {
+	req.on('error', function(e) {
 		console.log("http://"+jpeople_server_name+jpeople_server_path+"?action=fullAutoComplete&str="+query); 
 	  callback(false); 
 	});
+
+	req.end(); 
 };
 
 self.main = function(args){
