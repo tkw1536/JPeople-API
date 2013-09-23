@@ -7,6 +7,8 @@
 # Where is jPeople?
 jpeople_server_name = "jpeople.user.jacobs-university.de"
 jpeople_server_path = "/ajax.php"
+jpeople_server_image_prefix = "/utils/images/"
+jpeople_server_image_suffix = ".jpg";
 
 # Additional headers
 jpeople_search_headers = {
@@ -98,6 +100,8 @@ def search(query):
 				# A Directory for the person
 				person_dict = {}
 
+
+
 				for tag in person:
 					# We want to rename some properties
 					if tag in jpeople_attr_map.keys():
@@ -107,6 +111,7 @@ def search(query):
 						else:
 							person_dict[tag] = person[tag].replace("\n", "")
 
+				person_dict["photo"] = "http://"+jpeople_server_name+jpeople_server_image_prefix+person_dict["eid"]+jpeople_server_image_suffix
 				people_list.append(person_dict)
 
 			# Return the list of all the lovely people

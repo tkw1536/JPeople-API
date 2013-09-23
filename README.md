@@ -30,6 +30,10 @@ All APIs use the new JSON access which is implemented on the Jacobs servers. The
 * "block"
 * "floor"
 
+The following custom attributes are added: 
+
+* "photo"
+
 ## Available languages
 
 * Python

@@ -9,8 +9,8 @@
 //Where is jPeople?
 var jpeople_server_name = "jpeople.user.jacobs-university.de";
 var jpeople_server_path = "/ajax.php";
-
-
+var jpeople_server_image_prefix = "/utils/images/";
+var jpeople_server_image_suffix = ".jpg";
 
 //Map for property names
 //Anything not in here will be removed
@@ -89,6 +89,8 @@ self.search = function(query, callback){
 								person_dict[jpeople_attr_map[tag]] = person[tag]; 
 							}
 						}
+
+						person_dict["photo"] = "http://"+jpeople_server_name+jpeople_server_image_prefix+person_dict["eid"]+jpeople_server_image_suffix;
 
 						people_list.push(person_dict); 
 					}
