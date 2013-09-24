@@ -69,12 +69,6 @@ else:
 	from urllib import quote as urllib_quote
 
 
-# EXCEPTIONS
-class UnexpectedCode(Exception):
-	"""The server returned an unexpected code. """
-	pass
-
-
 # CORE FUNCTIONS
 
 def search(query): 
@@ -118,9 +112,9 @@ def search(query):
 			return people_list
 
 		else:
-			raise UnexpectedCode()
+			return False
 	except Exception: 
-		raise Exception
+		return False
 
 # MAIN Function
 # if run stand alone
@@ -141,12 +135,10 @@ def main(args):
 	# Get the search result and check for errors
 	try:
 		people = search(search_str)
-	except UnexpectedCode:
-		print("Server responded with an unexpected code. ", reason)
-		print("Please make sure you are in the Jacobs University Network / VPN. ")
-		sys.exit(1)
+		if not people:
+			raise Exception
 	except Exception:
-		print("Unable to parse result. ")
+		print("Search failed. ")
 		print("Please make sure you are in the Jacobs University Network / VPN. ")
 		sys.exit(1)
 

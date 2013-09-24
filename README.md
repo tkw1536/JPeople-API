@@ -34,17 +34,19 @@ The following custom attributes are added:
 
 * "photo"
 
+In all implementations the are returned in an array of JSON-style objects. If the search fails false is returned. 
+
 ## Available languages
 
 * Python
 * Node.js (Server-side JavaScript)
+* PHP
 * JavaScript Client-side (broken by CORS)
 
 The following APIS are planned: 
 
-
 * SML (for smlnj)
-* PHP
+
 
 ## Usage
 
