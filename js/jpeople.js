@@ -9,8 +9,9 @@
 //Where is jPeople?
 var jpeople_server_name = "jpeople.user.jacobs-university.de";
 var jpeople_server_path = "/ajax.php";
-var jpeople_server_image_prefix = "/utils/images/";
-var jpeople_server_image_suffix = ".jpg";
+var jpeople_image_server = "swebtst01.public.jacobs-university.de"; //switch this to something else
+var jpeople_server_image_prefix = "/jPeople/image.php?id=";
+var jpeople_server_image_suffix = "";
 
 //Map for property names
 //Anything not in here will be removed
@@ -73,7 +74,7 @@ self.search = function(query, callback){
 				}
 			}
 
-			person_dict["photo"] = "http://"+jpeople_server_name+jpeople_server_image_prefix+person_dict["eid"]+jpeople_server_image_suffix;
+			person_dict["photo"] = "http://"+jpeople_image_server+jpeople_server_image_prefix+person_dict["eid"]+jpeople_server_image_suffix;
 
 			people_list.push(person_dict); 
 		}
